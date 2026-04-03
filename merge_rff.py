@@ -116,8 +116,6 @@ def validate_compatible(files: List[RFFFile]) -> None:
                     f"Gauge ID/order mismatch at index {i}: "
                     f"{base.path}={a.gauge_id!r}, {other.path}={b.gauge_id!r}"
                 )
-
-        for i, (a, b) in enumerate(zip(base.directory, other.directory)):
             if a.interval_seconds != b.interval_seconds:
                 raise ValueError(
                     f"Interval mismatch for gauge {a.gauge_id!r} at index {i}: "
@@ -219,7 +217,8 @@ def merge_rff(input_paths: List[str], output_path: str, progress_every: int = 25
         size_mb = os.path.getsize(r.path) / (1024 * 1024)
         print(f"  {idx}. {r.path}  ({size_mb:.1f} MB)")
     print(f"Gauge count: {gauge_count}")
-    print(f"Interval (seconds): {rffs[0].directory[0].interval_seconds} (from first gauge)")
+    if rffs[0].gauge_count > 0:
+        print(f"Interval (seconds): {rffs[0].directory[0].interval_seconds} (from first gauge)")
     print("Dedup rule: later files in this list overwrite earlier ones on same timestamp.")
 
     print("Preparing output file (writing header + placeholder directory)...")
