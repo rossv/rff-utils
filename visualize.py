@@ -83,6 +83,7 @@ class VisualizationDialog(QDialog):
         self.setWindowTitle("Data Statistics & Visualization")
         self.resize(800, 600)
         self.file_paths = file_paths
+        self.plot_data_map = {}
 
         layout = QVBoxLayout(self)
 
